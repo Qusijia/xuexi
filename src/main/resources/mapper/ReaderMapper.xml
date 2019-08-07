@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bookmanage.mapper.ReaderMapper">
+
+    <select id="findAll" resultType="Reader">
+        select * from reader;
+    </select>
+
+    <select id="findByReaderId" resultType="Reader">
+        select * from reader where reader_id = #{reader_id};
+    </select>
+
+    <insert id="insertReader">
+      insert into reader (reader_id,reader_name,reader_age,reader_sex,reader_type,reader_phone,reader_department,reader_date,admin_id)
+      values (#{reader_id},#{reader_name},#{reader_age},#{reader_sex},#{reader_type},#{reader_phone},#{reader_department},#{reader_date},#{admin_id})
+    </insert>
+
+    <update id="updateReader">
+        update reader
+        <trim prefix="set" suffixOverrides=",">
+            <if test="reader_name!=null">reader_name=#{reader_name},</if>
+            <if test="reader_age!=0">reader_age=#{reader_age},</if>
+            <if test="reader_sex!=0">reader_sex=#{reader_sex},</if>
+            <if test="reader_type!=0">reader_type=#{reader_type},</if>
+            <if test="reader_phone!=null">reader_phone=#{reader_phone},</if>
+            <if test="reader_department!=null">reader_department=#{reader_department},</if>
+            <if test="reader_date!=null">reader_date=#{reader_date},</if>
+            <if test="admin_id!=0">admin_id=#{admin_id},</if>
+        </trim>
+        where reader_id = #{reader_id}
+    </update>
+
+    <delete id="deleteReader">
+      delete from reader where reader_id = #{reader_id}
+    </delete>
+
+    <select id="findByAdmin" resultType="Reader">
+        select * from reader where admin_id = #{admin_id};
+    </select>
+</mapper>

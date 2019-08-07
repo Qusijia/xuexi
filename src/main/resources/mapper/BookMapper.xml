@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bookmanage.mapper.BookMapper">
+
+    <select id="findAll" resultType="Book">
+        select * from book;
+    </select>
+
+    <select id="findByBookId" resultType="Book">
+        select * from book where book_id = #{book_id};
+    </select>
+
+    <select id="findByRank" resultType="Book">
+        select * from book where book_rank = #{book_rank};
+    </select>
+
+    <insert id="insertBook">
+      insert into book (book_id,book_name,book_author,book_publisher,book_price,book_rank,book_num)
+      values (#{book_id},#{book_name},#{book_author},#{book_publisher},#{book_price},#{book_rank},#{book_num})
+    </insert>
+
+    <update id="updateBook">
+      update book
+        <trim prefix="set" suffixOverrides=",">
+            <if test="book_name!=null">book_name=#{book_name},</if>
+            <if test="book_author!=null">book_author=#{book_author},</if>
+            <if test="book_publisher!=null">book_publisher=#{book_publisher},</if>
+            <if test="book_price!=0">book_price=#{book_price},</if>
+            <if test="book_rank!=0">book_rank=#{book_rank},</if>
+            <if test="book_num!=0">book_num=#{book_num},</if>
+        </trim>
+      where book_id = #{book_id}
+    </update>
+
+    <delete id="deleteBook">
+      delete from book where book_id = #{book_id}
+    </delete>
+</mapper>

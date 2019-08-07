@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bookmanage.mapper.LendInfoMapper">
+
+    <select id="findAll" resultType="LendInfo">
+        select * from lendinfo;
+    </select>
+
+    <select id="findlendByAReadidAndState" resultType="LendInfo">
+        select * from lendinfo where readerId = #{readerId} and state = #{state};
+    </select>
+
+    <select id="findByLendId" resultType="LendInfo">
+        select * from lendinfo where lend_id = #{lend_id};
+    </select>
+
+    <select id="findByreaderIdAndbookId" resultType="LendInfo">
+        select * from lendinfo where readerId = #{readerId} and bookId = #{bookId};
+    </select>
+
+    <select id="findByreaderIdAndbookIdAndState" resultType="LendInfo">
+        select * from lendinfo where readerId = #{readerId} and bookId = #{bookId} and state = #{state};
+    </select>
+
+    <select id="findlendByBookAndState" resultType="LendInfo">
+        select * from lendinfo where state = #{state} and bookId = #{bookId};
+    </select>
+
+
+    <insert id="insertLendInfo">
+      insert into lendinfo (lend_id,readerId,bookId,lend_date,back_date,state)
+      values (#{lend_id},#{readerId},#{bookId},#{lend_date},#{back_date},#{state})
+    </insert>
+
+    <update id="updateLendInfo">
+        update lendinfo
+        <trim prefix="set" suffixOverrides=",">
+            <if test="readerId!=null">readerId=#{readerId},</if>
+            <if test="bookId!=null">bookId=#{bookId},</if>
+            <if test="lend_date!=null">lend_date=#{lend_date},</if>
+            <if test="back_date!=null">back_date=#{back_date},</if>
+            <if test="state!=null">state=#{state},</if>
+        </trim>
+        where lend_id = #{lend_id}
+    </update>
+
+    <delete id="deleteLendInfo">
+      delete from lendinfo where lend_id = #{lend_id}
+    </delete>
+
+    <delete id="deleteLendInfoByreaderId">
+      delete from lendinfo where readerId = #{readerId}
+    </delete>
+
+    <delete id="deleteLendInfoBybookId">
+      delete from lendinfo where bookId = #{bookId}
+    </delete>
+</mapper>

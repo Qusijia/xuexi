@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bookmanage.mapper.UserMapper">
+
+    <!-- resultMap:映射实体类和字段之间的一一对应的关系 -->
+    <resultMap id="userRoleMap" type="User">
+        <id property="id" column="id" />
+        <result property="name" column="name" />
+        <result property="password" column="password" />
+        <result property="age" column="s_age" />
+        <!-- 多对多关联映射：collection -->
+        <collection property="roles" ofType="Role">
+            <id property="roleid" column="roleid" />
+            <result property="rolename" column="rolename" />
+            <collection property="actions" ofType="Action">
+                <id property="actionid" column="actionid" />
+                <result property="actionname" column="actionname" />
+            </collection>
+        </collection>
+    </resultMap>
+
+
+    <!-- 查询指定用户及他们角色的信息 -->
+    <select id="findRolesByUserid" resultMap="userRoleMap">
+        select
+        u.*,r.* from
+        user u,role r,user_role ur,action a,role_action ra
+        where ur.userid = u.id
+        and r.roleid=ur.roleid
+        and u.id=#{userid}
+    </select>
+
+    <select id="find" resultType="User">
+        select * from user where name = #{name} and password = #{password};
+    </select>
+
+    <insert id="insertBook" >
+        insert into user_role(
+        userid,roleid
+        ) values
+        <foreach collection="roleIds" item="rId" separator=",">
+            (${userId},#{rId})
+        </foreach>
+    </insert>
+
+</mapper>
